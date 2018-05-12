@@ -224,7 +224,7 @@ func quickSortPart(arr []int, tempArr []int, start int, end int, comp func(int, 
 	head := start
 	tail := end
 	for i := start + 1; i <= end; i ++ {
-		if pivot > arr[i] {
+		if comp(pivot, arr[i]) {
 			tempArr[head] = arr[i]
 			head ++
 		} else {
