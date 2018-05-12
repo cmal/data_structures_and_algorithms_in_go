@@ -13,10 +13,10 @@ func main() {
 	// sortFunc := selectionSort
 	// sortFunc := selectionSort1
 	// sortFunc := mergeSort
-	sortFunc := quickSort
+	// sortFunc := quickSort
 
 	// compFunc := less
-	compFunc := more
+	// compFunc := more
 
 
 	// ### test for func merge
@@ -34,16 +34,17 @@ func main() {
 
 	arr := []int{1,2,3,6,7,5,4,0}
 
-	sortFunc(arr, compFunc)
+	// sortFunc(arr, compFunc)
+	bucketSort(arr)
 	fmt.Println(arr)
 
 
-	compFunc = less
+	// compFunc = less
 
-	arr = []int{1,2,3,6,7,5,4,0}
+	// arr = []int{1,2,3,6,7,5,4,0}
 
-	sortFunc(arr, compFunc)
-	fmt.Println(arr)
+	// sortFunc(arr, compFunc)
+	// fmt.Println(arr)
 }
 
 func bubbleSort(arr []int, comp func(int, int) bool) {
@@ -239,4 +240,25 @@ func quickSortPart(arr []int, tempArr []int, start int, end int, comp func(int, 
 	// fmt.Println(head, tail)
 	quickSortPart(arr, tempArr, start, head - 1, comp)
 	quickSortPart(arr, tempArr, tail + 1, end, comp)
+}
+
+var bucketLowerBound = 0
+var bucketUpperBound = 7
+
+func bucketSort(arr []int) {
+	length := len(arr)
+	bucketRange := bucketUpperBound - bucketLowerBound + 1
+	tempArr := make([]int, bucketRange)
+
+	for i := 0; i < length; i ++ {
+		tempArr[arr[i]] += 1
+	}
+
+	cnt := 0
+	for index, item := range tempArr {
+		for i := 0; i < item; i ++ {
+			arr[cnt] = index + bucketLowerBound
+			cnt ++
+		}
+	}
 }
