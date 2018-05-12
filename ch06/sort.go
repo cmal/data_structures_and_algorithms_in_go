@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 )
 
 func main() {
@@ -11,7 +12,8 @@ func main() {
 	// sortFunc := insertSort
 	// sortFunc := selectionSort
 	// sortFunc := selectionSort1
-	sortFunc := mergeSort
+	// sortFunc := mergeSort
+	sortFunc := quickSort
 
 	// compFunc := less
 	compFunc := more
@@ -200,4 +202,41 @@ func merge(arr []int, start int, end int, mid int, comp func(int, int) bool) {
 	for i := start; i <= end; i ++ {
 		arr[i] = tempArr[i - start]
 	}
+}
+
+func quickSort(arr []int, comp func(int, int) bool) {
+	length := len(arr)
+	rand.Shuffle(length, func(i, j int) {
+		arr[i], arr[j] = arr[j], arr[i]
+	})
+	tempArr := make([]int, length)
+	quickSortPart(arr, tempArr, 0, length-1, comp)
+}
+
+func quickSortPart(arr []int, tempArr []int, start int, end int, comp func(int, int) bool) {
+	// fmt.Println(arr, "start, end:", start, end)
+	if (start >= end) {
+		return
+	}
+	pivot := arr[start]
+
+	// fmt.Println(start, end)
+	head := start
+	tail := end
+	for i := start + 1; i <= end; i ++ {
+		if pivot > arr[i] {
+			tempArr[head] = arr[i]
+			head ++
+		} else {
+			tempArr[tail] = arr[i]
+			tail --
+		}
+	}
+	tempArr[head] = pivot
+	for i := start; i <= end; i ++ {
+		arr[i] = tempArr[i]
+	}
+	// fmt.Println(head, tail)
+	quickSortPart(arr, tempArr, start, head - 1, comp)
+	quickSortPart(arr, tempArr, tail + 1, end, comp)
 }
