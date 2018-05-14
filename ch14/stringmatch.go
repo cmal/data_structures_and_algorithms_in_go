@@ -17,13 +17,13 @@ func main() {
 
 func BruteForce(text string, pattern string) int {
 
-	lengthText := len(text)
-	lengthPattern := len(pattern)
+	n := len(text)
+	m := len(pattern)
 
-	for i := 0; i < lengthText; i ++ {
-		for j := 0; j < lengthPattern; j ++ {
+	for i := 0; i < n; i ++ {
+		for j := 0; j < m; j ++ {
 			if text[i + j] == pattern[j] {
-				if j + 1 == lengthPattern {
+				if j + 1 == m {
 					return i
 				}
 			} else {
@@ -35,8 +35,8 @@ func BruteForce(text string, pattern string) int {
 }
 
 func RobinKarp(text string, pattern string) int {
-	lengthText := len(text)
-	lengthPattern := len(pattern)
+	n := len(text)
+	m := len(pattern)
 
 	powm := 1
 	textHash := 0
@@ -44,29 +44,29 @@ func RobinKarp(text string, pattern string) int {
 
 	prime := 101
 
-	for i := 0; i < lengthPattern; i ++ {
+	for i := 0; i < m; i ++ {
 		powm = (powm << 1) % prime
 	}
 
-	for i := 0; i < lengthPattern; i ++ {
+	for i := 0; i < m; i ++ {
 		patternHash = (patternHash << 1 + int(pattern[i])) % prime
 		textHash = (textHash << 1 + int(text[i])) % prime
 	}
 
-	for i := 0; i <= lengthText - lengthPattern; i ++ {
+	for i := 0; i <= n - m; i ++ {
 		if patternHash == textHash {
 			// check collision
 			j := 0
-			for ; j < lengthPattern; j ++ {
+			for ; j < m; j ++ {
 				if text[i + j] != pattern[j] {
 					break;
 				}
 			}
-			if j == lengthPattern {
+			if j == m {
 				return i
 			}
 		} else {
-			textHash = (textHash << 1 - int(text[i]) * powm + int(text[i + lengthPattern])) % prime
+			textHash = (textHash << 1 - int(text[i]) * powm + int(text[i + m])) % prime
 			if textHash < 0 {
 				textHash = textHash + prime
 			}
@@ -75,4 +75,8 @@ func RobinKarp(text string, pattern string) int {
 	}
 
 	return -1
+}
+
+func KMP(text string, pattern string) int {
+	
 }
