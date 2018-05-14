@@ -6,7 +6,8 @@ import (
 
 func main() {
 	text := "A long string that contains a short string which should be matched: bingo!"
-	pattern := "bingo!"
+	// pattern := "bingo!"
+	pattern := "bingo!!"
 
 	matchFunc := BruteForce
 	// matchFunc := RobinKarp
@@ -33,7 +34,7 @@ func BruteForce(text string, pattern string) int {
 	n := len(text)
 	m := len(pattern)
 
-	for i := 0; i < n; i ++ {
+	for i := 0; i <= n - m; i ++ {
 		for j := 0; j < m; j ++ {
 			if text[i + j] == pattern[j] {
 				if j + 1 == m {
@@ -79,7 +80,13 @@ func RobinKarp(text string, pattern string) int {
 				return i
 			}
 		} else {
-			textHash = (textHash << 1 - int(text[i]) * powm + int(text[i + m])) % prime
+			var tmp int
+			if i == n {
+				tmp = 0
+			} else {
+				tmp = int(text[i + m])
+			}
+			textHash = (textHash << 1 - int(text[i]) * powm + tmp) % prime
 			if textHash < 0 {
 				textHash = textHash + prime
 			}
@@ -102,7 +109,7 @@ func KMP(text string, pattern string) int {
 	j := 0
 
 	for j < n {
-		for i > -1 && text[i] != text[j] {
+		for i > -1 && pattern[i] != text[j] {
 			i = shiftArr[i]
 		}
 		i ++
