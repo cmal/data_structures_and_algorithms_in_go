@@ -6,12 +6,13 @@ import (
 
 func main() {
 	text := "A long string that contains a short string which should be matched: bingo!"
-	// pattern := "bingo!"
-	pattern := "bingo!!"
+	pattern := "bingo!"
+	// pattern := "bingo!!"
 
-	matchFunc := BruteForce
+	// matchFunc := BruteForce
 	// matchFunc := RobinKarp
-	// matchFunc := KMP
+	// matchFunc := Kmp
+	matchFunc := Sunday
 
 	fmt.Println(matchFunc(text, pattern))
 
@@ -97,13 +98,13 @@ func RobinKarp(text string, pattern string) int {
 	return -1
 }
 
-func KMP(text string, pattern string) int {
+func Kmp(text string, pattern string) int {
 
 	n := len(text)
 	m := len(pattern)
 
 	shiftArr := make([]int, m + 1)
-	KMPcompile(pattern, shiftArr, m)
+	KmpCompile(pattern, shiftArr, m)
 
 	i := 0
 	j := 0
@@ -123,7 +124,7 @@ func KMP(text string, pattern string) int {
 	return -1
 }
 
-func KMPcompile(pattern string, shiftArr []int, m int) {
+func KmpCompile(pattern string, shiftArr []int, m int) {
 	shiftArr[0] = -1
 	i := 0
 	j := -1
@@ -154,4 +155,48 @@ func KMPcompile(pattern string, shiftArr []int, m int) {
 		}
 		// fmt.Printf(" after:|%2d|%2d|%v\n", i, j, shiftArr)
 	}
+}
+
+
+func SundayCompile(pattern string, m int, occ map[rune]int) {
+	for _, ch := range pattern {
+		occ[ch] = -1;
+	}
+
+	for i := 0; i < m; i ++ {
+		ch := rune(pattern[i])
+		occ[ch] = i
+	}
+}
+
+
+func Sunday(text string, pattern string) int {
+
+	n := len(text)
+	m := len(pattern)
+
+	occ := make(map[rune]int, m)
+
+	SundayCompile(pattern, m, occ)
+	
+	for i := 0; i <= n - m; {
+		j := 0
+		for ; j < m; j ++ {
+			// fmt.Println(i + j, j)
+			if text[i + j] != pattern[j] {
+				break
+			}
+		}
+
+		if j == m {
+			return i
+		}
+
+		i += m;
+		if i < n {
+			i -= occ[rune(text[i])]
+		}
+		
+	}
+	return -1
 }
