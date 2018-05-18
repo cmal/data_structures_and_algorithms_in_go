@@ -40,8 +40,11 @@ func InfixToPostfix(expn string) string {
 				for stk.Len() != 0 {
 					peek := stk.Peek().(rune)
 					// fmt.Println("Compare ", string(ch), " to ", string(peek))
-					if precedence(ch) <= precedence(peek) {
+					if precedence(ch) > precedence(peek) {
+						// fmt.Println(">")
 						break;
+					// } else {
+						// fmt.Println("<=")
 					}
 					// fmt.Println("Pop")
 					head := stk.Pop().(rune)
