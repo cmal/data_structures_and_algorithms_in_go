@@ -12,6 +12,12 @@ func main() {
 	fmt.Println("min: ", tree.Min())
 	fmt.Println("max: ", tree.Max())
 	fmt.Println("isBST: ", tree.IsBST())
+	tree.Remove(4)
+	tree.InOrderTraversePrint()
+	tree.Remove(7)
+	tree.InOrderTraversePrint()
+	tree.Remove(1)
+	tree.InOrderTraversePrint()
 }
 
 type Node struct {
@@ -79,6 +85,10 @@ func search(n *Node, val int) bool {
 
 func (tree *Tree) Min() int {
 	node := tree.root
+	return min(node)
+}
+
+func min(node *Node) int{
 	for node.left != nil {
 		node = node.left
 	}
@@ -87,6 +97,10 @@ func (tree *Tree) Min() int {
 
 func (tree *Tree) Max() int {
 	node := tree.root
+	return max(node)
+}
+
+func max(node *Node) int {
 	for node.right != nil {
 		node = node.right
 	}
@@ -119,14 +133,43 @@ func isBST(n *Node) bool {
 }
 
 func (tree *Tree) IsBST1() bool {
+	// use infix traverse
 	return false
 }
 
-func (tree *Tree) IsBST2() bool {
-	return false
+func (tree *Tree) Remove(val int) {
+	node := tree.root
+	tree.root = remove(node, val)
 }
 
-func (tree *Tree) Remove(val int) bool {
-	return false
+func remove(node *Node, val int) *Node {
+	if node.value == val {
+		// fmt.Printf("%v == %v\n", node.value, val)
+		left := node.left
+		right := node.right
+
+		if left == nil && right == nil {
+			// fmt.Println("return nil")
+			node = nil
+		} else if left == nil {
+			root := min(node.right)
+			// fmt.Printf("--> remove right %v\n", root)
+			node.right = remove(node.right, root)
+			node.value = root
+		} else {
+			root := max(node.left)
+			// fmt.Printf("--> remove left %v\n", root)
+			node.left = remove(node.left, root)
+			node.value = root
+		}
+	} else if node.value < val {
+		// fmt.Printf("%v < %v\n", node.value, val)
+		node.right = remove(node.right, val)
+	} else {
+		// fmt.Printf("%v > %v\n", node.value, val)
+		node.left = remove(node.left, val)
+	}
+	return node
 }
+
 
