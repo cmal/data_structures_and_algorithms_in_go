@@ -42,7 +42,7 @@ func CreateBST(arr []int) *Tree {
 
 func (tree *Tree) Add(val int) {
 	if tree.root == nil {
-		tree.root = val
+		tree.root = &Node{val,nil,nil}
 	}
 	if tree.root > val {
 		add(tree.left, val)
