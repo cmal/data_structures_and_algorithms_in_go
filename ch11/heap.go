@@ -6,24 +6,22 @@ import (
 
 func main() {
 	arr := []int{1,2,3,4,5,6,7,8}
-	buildHeap(&arr)
-	fmt.Println(arr)
 }
 
-func buildHeap(arr *[]int) {
-	size := len(arr)
-	middle := size / 2 // this is clever!
+type Heap struct {
+	size int
+	arr []int
+	isMin bool
+}
 
-	for ; middle > 0 ; middle -- {
-		tmp := 2 * middle
-		if arr[2 * middle] < arr[2 * middle + 1] {
-			tmp += 1
-		}
-
-		if arr[middle] < arr[tmp] {
-			// swap
-			arr[middle], arr[tmp] = arr[tmp], arr[middle]
-		}
-		// going forward
+func (h *Heap) compare(i, j int) bool {
+	if h.isMin {
+		return h[i] > h[j]
+	} else {
+		return h[i] < h[j]
 	}
+}
+
+func NewHeap(arr []int, isMin bool) *Heap {
+
 }
