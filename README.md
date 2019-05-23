@@ -1,2 +1,2 @@
 # data_structures_and_algorithms_in_go
-Some algorithms and answers for exercises of the book `Data Structures and Algorithms in Go`.
+Some algorithms and answers for exercises of the book [Data Structures and Algorithms in Go](https://www.amazon.com/Data-Structures-Algorithms-Hemant-Jain/dp/1976503302/ref=sr_1_1?crid=2SYD06JK4A60J&keywords=data+structures+and+algorithms+in+go&qid=1558579422&s=gateway&sprefix=data+structures+and+algorithms+in+go%2Caps%2C466&sr=8-1), a great book to practice data structures and algorithms for beginners.
